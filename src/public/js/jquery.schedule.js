@@ -85,7 +85,7 @@
      * First day number
      */
     dayFirstNb: 0,
-
+    dayMonthMax: 0,
     /**
      * Generate id for a period
      * @returns {string}
@@ -229,7 +229,7 @@
     updateDaysNb: function() {
       var $this = this;
       $(".jqs-grid-day", $this.element).each(function (i) {
-        var lbl = $this.settings.days[i] + "<br/>" + ($this.dayFirstNb + i);
+        var lbl = $this.settings.days[i] + "<br/>" + (($this.dayFirstNb - 1 + i) % ($this.dayMonthMax) + 1);
         $(this).html(lbl);
       });
 
@@ -885,6 +885,7 @@
      */
     reset: function (args) {
       this.dayFirstNb = args[1];
+      this.dayMonthMax = args[2];
       this.removeAll(this.element);
       this.updateDaysNb();
     }

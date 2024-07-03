@@ -110,9 +110,28 @@ var decimalToTime = (n) => (
         Math.floor((n % 1) * 60)
     ).padStart(2, "0"));
 
-var updateCalendarData = (calendarConfig) => {
+var daysInDateMonth = (d) => {
+    let bx = d.getFullYear() % 4 == 0 ? true : false;
+    let nbs = [
+        31,
+        28 + (bx ? 1 : 0),
+        31,
+        30,
+        31,
+        30,
+        31,
+        31,
+        30,
+        31,
+        30,
+        31
+    ]
+    return nbs[d.getMonth()]
+}
 
-    $("#calendar").jqs("reset", calendarConfig.start.getDate());
+var updateCalendarData = (calendarConfig) => {
+    let date = calendarConfig.start;
+    $("#calendar").jqs("reset", date.getDate(), daysInDateMonth(date));
 
     calNavTitle.innerText = getWeekTitle(calendarConfig);
 
