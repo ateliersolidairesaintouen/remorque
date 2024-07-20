@@ -6,7 +6,7 @@ const CONTENT = [
     "<p>{NAME}",
     "<br/>Début : {HOUR_START} le {DATE_START}",
     "<br/>Fin : {HOUR_END} le {DATE_END}</p>",
-    "<p>Pour récupérer la remorque, vous devrez ouvrir la boîte à clé à l'aide du code suivant : <b>{CODE}</b>.</p>",
+    "<p>Pour récupérer la remorque, vous devrez ouvrir la boîte à clé à l'aide du code suivant : <b>{CODE}</b>. Elle se trouve sur le rail à coté du four à pizza.</p>",
     "<p>Si vous souhaitez annuler la réservation, cliquez sur le lien suivant :</p>",
     "<p><a href=\"{LINK_CANCEL}\">{LINK_CANCEL}</a></p>",
     "<p>Si vous rencontrez un problème avec la remorque, merci de nous le faire savoir en retour de ce mail.</p>",
