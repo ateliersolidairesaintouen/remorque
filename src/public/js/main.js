@@ -72,7 +72,7 @@ var getWeekTitle = (config) => {
     })}`
 }
 
-var getTodayWeekConfig = (day) => {
+var getTodayWeekConfig = (service, day) => {
     let d = new Date(day);
     let de = new Date(day);
 
@@ -89,6 +89,7 @@ var getTodayWeekConfig = (day) => {
     var end = new Date(de.setDate(start.getDate() + 6));
 
     return {
+        service: service,
         start: start,
         end: end
     }
@@ -150,10 +151,6 @@ var initServices = (then, failure) => {
     })
 }
 
-var setService = (service) => {
-
-}
-
 // Update calendar events
 
 var updateCalendarData = (calendarConfig) => {
@@ -164,7 +161,7 @@ var updateCalendarData = (calendarConfig) => {
 
     let data = [];
 
-    fetchCalendar(undefined, calendarConfig.start, calendarConfig.end).then(result => {
+    fetchCalendar(calendarConfig.service, calendarConfig.start, calendarConfig.end).then(result => {
         for (let i = 0; i < result.length; ++i) {
             let it = result[i];
             let s = new Date(it.start);
@@ -190,6 +187,11 @@ var updateCalendarData = (calendarConfig) => {
     });
 }
 
+service.addEventListener('change', () => {
+    calendarConfig.service = service.value;
+    updateCalendarData(calendarConfig);
+})
+
 submit.addEventListener("click", () => {
     var s = formatDateTime(date.valueAsDate, startHour.value, startMinute.value);
     var e = formatDateTime(date.valueAsDate, endHour.value, endMinute.value);
@@ -212,7 +214,7 @@ submit.addEventListener("click", () => {
 });
 
 calNavToday.addEventListener("click", () => {
-    calendarConfig = getTodayWeekConfig(new Date());
+    calendarConfig = getTodayWeekConfig(calendarConfig.service, new Date());
     updateCalendarData(calendarConfig);
 });
 
@@ -227,14 +229,17 @@ calNavNext.addEventListener("click", () => {
     updateCalendarData(calendarConfig);
 });
 
+
+
 $("#calendar").jqs({
     mode: "read",
     days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
 })
 
-let calendarConfig = getTodayWeekConfig(new Date());
+let calendarConfig = undefined;
 
 //setPrevWeek(calendarConfig.start);
 initServices(services => {
+    calendarConfig = getTodayWeekConfig(services[0], new Date());
     updateCalendarData(calendarConfig);
 })
