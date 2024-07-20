@@ -186,6 +186,8 @@ var updateCalendarData = (calendarConfig) => {
             let sstr = s.toLocaleTimeString("fr-FR");
             let estr = e.toLocaleTimeString("fr-FR");
 
+            console.log(calendarConfig.service.color)
+
             let event = {
                 day: d,
                 periods: [
