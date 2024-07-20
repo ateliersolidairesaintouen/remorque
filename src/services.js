@@ -11,8 +11,8 @@ var service = class Service {
         this.id = id;
         this.name = name;
         this.googleCalendarId = googleCalendarId;
-        this.mailSubject = mailConfirmationSubject;
-        this.mailContent = mailConfirmationContent;
+        this.mailConfirmationSubject = mailConfirmationSubject;
+        this.mailConfirmationContent = mailConfirmationContent;
         this.pahekoActivityId = pahekoActivityId;
         this.codePrivateKey = codePrivateKey;
     }
