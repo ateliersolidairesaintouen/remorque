@@ -89,7 +89,7 @@ var getTodayWeekConfig = (service, day) => {
     var end = new Date(de.setDate(start.getDate() + 6));
 
     return {
-        service: service,
+        service: service.id,
         start: start,
         end: end
     }
