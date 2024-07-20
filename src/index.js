@@ -272,6 +272,7 @@ app.get("/cancel", (req, res) => {
     if (serviceId == undefined) error("No service", res);
 
     let service = Service.getServiceById(serviceId);
+    console.log(service);
     if (service == null) error("Unknow service", res);
 
     let calendar = new CalendarClient(
