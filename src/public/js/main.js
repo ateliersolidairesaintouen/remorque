@@ -95,16 +95,18 @@ var getTodayWeekConfig = (service, day) => {
     }
 }
 
-var setPrevWeek = (d) => {
-    var day = d.getDate();
+var setPrevWeek = (config) => {
+    let d = config.start;
+    let day = d.getDate();
     d.setDate(day - 7);
-    calendarConfig = getTodayWeekConfig(d);
+    calendarConfig = getTodayWeekConfig(config.service, d);
 }
 
-var setNextWeek = (d) => {
+var setNextWeek = (config) => {
+    let d = config.start;
     var day = d.getDate();
     d.setDate(day + 7);
-    calendarConfig = getTodayWeekConfig(d);
+    calendarConfig = getTodayWeekConfig(config.service, d);
 }
 
 var alertMessage = (type, message) => {
@@ -220,12 +222,12 @@ calNavToday.addEventListener("click", () => {
 
 
 calNavPrev.addEventListener("click", () => {
-    setPrevWeek(calendarConfig.start);
+    setPrevWeek(calendarConfig);
     updateCalendarData(calendarConfig);
 });
 
 calNavNext.addEventListener("click", () => {
-    setNextWeek(calendarConfig.start);
+    setNextWeek(calendarConfig);
     updateCalendarData(calendarConfig);
 });
 
