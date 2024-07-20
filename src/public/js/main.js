@@ -37,10 +37,11 @@ async function submitRequest(service, member, start, end, captcha) {
     return rep;
 }
 
-async function fetchCalendar(start, end) {
+async function fetchCalendar(service, start, end) {
     let form = new FormData();
     form.append("start", start);
     form.append("end", end);
+    form.append("service", service);
 
     let res = await fetch(BASE_URL + "calendar?" + new URLSearchParams(form));
     return await res.json();

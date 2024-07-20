@@ -16,12 +16,8 @@ var mail = class Mail {
         });
     }
 
-    generateLinkHelp(id) {
-        return this.baseurl + "help?id=" + id;
-    }
-
-    generateLinkCancel(id) {
-        return this.baseurl + "cancel?id=" + id;
+    generateLinkCancel(service, id) {
+        return this.baseurl + "cancel?service=" + service.id + "&id=" + id;
     }
 
     formatHour(date) {
@@ -35,7 +31,7 @@ var mail = class Mail {
             .replaceAll("{HOUR_END}", data.to.toLocaleTimeString("fr-FR"))
             .replaceAll("{DATE_START}", data.from.toLocaleDateString("fr-FR"))
             .replaceAll("{DATE_END}", data.to.toLocaleDateString("fr-FR"))
-            .replaceAll("{LINK_CANCEL}", this.generateLinkCancel(data.eventId))
+            .replaceAll("{LINK_CANCEL}", this.generateLinkCancel(data.service, data.eventId))
             .replaceAll("{CODE}", data.code);
         var subject = data.service.mailConfirmationSubject;
         var sender = `${this.smtp.name} <${this.smtp.email}>`

@@ -142,7 +142,7 @@ let addCalendarEvent = (data, success, failure) => {
 
     let event = {
         "summary": member.nom,
-        "description": calendar.formatDescription(member),
+        "description": data.calendar.formatDescription(member),
         "start": {
             "dateTime": from.toISOString(),
             "timeZone": "Europe/Paris",
@@ -161,7 +161,7 @@ let sendConfirmationMail = (data, success, failure) => {
     mail.sendConfirmationMail().then(success).catch(failure);
 };
 
-let abortCalendarEvent = (data, success, failure) => {
+let abortCalendarEvent = (calendar, data, success, failure) => {
     calendar.deleteEvent(data).then(success).catch(failure);
 }
 
@@ -237,10 +237,18 @@ app.post("/add", function(req, res) {
 
 app.get("/calendar", function (req, res) {
     // On fait rien s'il manque un champ >>> SEMBLE PAS MARCHER LOL
-    if (!req.query.start || !req.query.end) return error("Formulaire incomplet", res);
+    if (!req.query.start || !req.query.end || !req.query.service) return error("Formulaire incomplet", res);
 
     let start = new Date(req.query.start);
     let end = new Date(req.query.end);
+    let service = Service.getServiceById(req.query.service);
+
+    if (service == null) return error("Materiel de prêt inconnu");
+
+    let calendar = new CalendarClient(
+        service.googleCalendarId,
+        GOOGLE_CREDENTIALS
+    );
 
     calendar.getEvents({
         start: start,
@@ -256,8 +264,20 @@ app.get("/calendar", function (req, res) {
 
 app.get("/cancel", (req, res) => {
     let id = req.query.id;
-    if (id == undefined) error("No id", res);
-    else abortCalendarEvent({ eventId: id }, () => {
+    let serviceId = req.query.service;
+
+    if (id == undefined ) error("No id", res);
+    if (serviceId == undefined) error("No service", res);
+
+    let service = Service.getServiceById(serviceId);
+    if (service == null) error("Unknow service", res);
+
+    let calendar = new CalendarClient(
+        service.googleCalendarId,
+        GOOGLE_CREDENTIALS
+    );
+
+    abortCalendarEvent(calendar, { eventId: id }, () => {
         // On supprime le créneau
         res.render("cancel", {
             title: "Créneau supprimmé",
