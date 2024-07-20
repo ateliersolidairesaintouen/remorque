@@ -47,6 +47,11 @@ async function fetchCalendar(service, start, end) {
     return await res.json();
 }
 
+async function fetchServices() {
+    let res = await fetch(BASE_URL + "services");
+    return await res.json();
+}
+
 var formatDateTime = (date, hour, minute) => {
     let year = date.getUTCFullYear();
     let month = date.getMonth();
@@ -67,7 +72,7 @@ var getWeekTitle = (config) => {
     })}`
 }
 
-var getTodayWeekConfig = (day) => {
+var getWeekCalendarConfig = (day) => {
     let d = new Date(day);
     let de = new Date(day);
 
@@ -131,6 +136,25 @@ var daysInDateMonth = (d) => {
     ]
     return nbs[d.getMonth()]
 }
+
+// Init and set services
+
+var initServices = (then, failure) => {
+    fetchServices().then(services => {
+        for (let i = 0; i < services.length; ++i) {
+            let sv = services[i];
+            let option = new Option(sv.name, sv.id);
+            service.appendChild(option);
+        }
+        then(services);
+    })
+}
+
+var setService = (service) => {
+
+}
+
+// Update calendar events
 
 var updateCalendarData = (calendarConfig) => {
     let date = calendarConfig.start;
@@ -211,4 +235,6 @@ $("#calendar").jqs({
 let calendarConfig = getTodayWeekConfig(new Date());
 
 //setPrevWeek(calendarConfig.start);
-updateCalendarData(calendarConfig);
+initServices(services => {
+    updateCalendarData(calendarConfig);
+})
