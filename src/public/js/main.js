@@ -1,5 +1,17 @@
 // À MODIFIER COMME LE FICHIER DE CONFIGURATION
-let BASE_URL = "https://remorque.atelierso.fr/";
+const BASE_URL = "https://remorque.atelierso.fr/";
+const COLORS = [
+    "#FFADAD",
+    "#FFD6A5",
+    "#FDFFB6",
+    "#CAFFBF",
+    "#9BF6FF",
+    "#A0C4FF",
+    "#BDB2FF",
+    "#FFC6FF"
+]
+
+var SERVICES = undefined;
 
 let calNavTitle = document.getElementById("calendar-navigation-title");
 let calNavToday = document.getElementById("calendar-navigation-today");
@@ -10,6 +22,7 @@ let calendarTable = document.getElementById("calendar_table");
 let alertLabel = document.getElementById("alert");
 
 let date = document.getElementById("date");
+let service = document.getElementById("service");
 let startHour = document.getElementById("start-hour");
 let startMinute = document.getElementById("start-minute");
 
@@ -20,8 +33,9 @@ let submit = document.getElementById("submit");
 
 date.valueAsDate = new Date();
 
-async function submitRequest(member, start, end, captcha) {
+async function submitRequest(service, member, start, end, captcha) {
     let form = new FormData();
+    form.append("service", service);
     form.append("member", member);
     form.append("from", start);
     form.append("to", end);
@@ -35,12 +49,18 @@ async function submitRequest(member, start, end, captcha) {
     return rep;
 }
 
-async function fetchCalendar(start, end) {
+async function fetchCalendar(service, start, end) {
     let form = new FormData();
     form.append("start", start);
     form.append("end", end);
+    form.append("service", service);
 
     let res = await fetch(BASE_URL + "calendar?" + new URLSearchParams(form));
+    return await res.json();
+}
+
+async function fetchServices() {
+    let res = await fetch(BASE_URL + "services");
     return await res.json();
 }
 
@@ -64,7 +84,7 @@ var getWeekTitle = (config) => {
     })}`
 }
 
-var getTodayWeekConfig = (day) => {
+var getTodayWeekConfig = (service, day) => {
     let d = new Date(day);
     let de = new Date(day);
 
@@ -81,21 +101,24 @@ var getTodayWeekConfig = (day) => {
     var end = new Date(de.setDate(start.getDate() + 6));
 
     return {
+        service: service,
         start: start,
         end: end
     }
 }
 
-var setPrevWeek = (d) => {
-    var day = d.getDate();
+var setPrevWeek = (config) => {
+    let d = config.start;
+    let day = d.getDate();
     d.setDate(day - 7);
-    calendarConfig = getTodayWeekConfig(d);
+    calendarConfig = getTodayWeekConfig(config.service, d);
 }
 
-var setNextWeek = (d) => {
+var setNextWeek = (config) => {
+    let d = config.start;
     var day = d.getDate();
     d.setDate(day + 7);
-    calendarConfig = getTodayWeekConfig(d);
+    calendarConfig = getTodayWeekConfig(config.service, d);
 }
 
 var alertMessage = (type, message) => {
@@ -129,6 +152,24 @@ var daysInDateMonth = (d) => {
     return nbs[d.getMonth()]
 }
 
+// Init and set services
+
+var initServices = (then, _) => {
+    fetchServices().then(services => {
+        let all = [];
+        for (let i = 0; i < services.length; ++i) {
+            let sv = services[i];
+            sv.color = COLORS[i % services.length];
+            let option = new Option(sv.name, sv.id);
+            service.appendChild(option);
+            all.push(sv);
+        }
+        then(all);
+    })
+}
+
+// Update calendar events
+
 var updateCalendarData = (calendarConfig) => {
     let date = calendarConfig.start;
     $("#calendar").jqs("reset", date.getDate(), daysInDateMonth(date));
@@ -137,7 +178,7 @@ var updateCalendarData = (calendarConfig) => {
 
     let data = [];
 
-    fetchCalendar(calendarConfig.start, calendarConfig.end).then(result => {
+    fetchCalendar(calendarConfig.service.id, calendarConfig.start, calendarConfig.end).then(result => {
         for (let i = 0; i < result.length; ++i) {
             let it = result[i];
             let s = new Date(it.start);
@@ -150,7 +191,11 @@ var updateCalendarData = (calendarConfig) => {
             let event = {
                 day: d,
                 periods: [
-                    [sstr.substring(sstr, sstr.length - 3), estr.substring(estr, estr.length - 3)]
+                    {
+                        start: sstr.substring(sstr, sstr.length - 3),
+                        end: estr.substring(estr, estr.length - 3),
+                        backgroundColor: calendarConfig.service.color
+                    }
                 ]
             };
 
@@ -163,15 +208,26 @@ var updateCalendarData = (calendarConfig) => {
     });
 }
 
+service.addEventListener('change', () => {
+    let id = service.value;
+    SERVICES.forEach(it => {
+        if (it.id == id) {
+            calendarConfig.service = it;
+            updateCalendarData(calendarConfig);
+        }
+    })
+})
+
 submit.addEventListener("click", () => {
     var s = formatDateTime(date.valueAsDate, startHour.value, startMinute.value);
     var e = formatDateTime(date.valueAsDate, endHour.value, endMinute.value);
     var m = member.value;
     var c = grecaptcha.getResponse();
+    var sv = service.value;
 
     alertMessage("alert-secondary", "Enregistrement...")
 
-    submitRequest(m, s, e, c).then((rs) => {
+    submitRequest(sv, m, s, e, c).then((rs) => {
         if (rs.status == 200) {
             alertMessage("alert-success", rs.message);
             updateCalendarData(calendarConfig);
@@ -184,27 +240,34 @@ submit.addEventListener("click", () => {
 });
 
 calNavToday.addEventListener("click", () => {
-    calendarConfig = getTodayWeekConfig(new Date());
+    calendarConfig = getTodayWeekConfig(calendarConfig.service, new Date());
     updateCalendarData(calendarConfig);
 });
 
 
 calNavPrev.addEventListener("click", () => {
-    setPrevWeek(calendarConfig.start);
+    setPrevWeek(calendarConfig);
     updateCalendarData(calendarConfig);
 });
 
 calNavNext.addEventListener("click", () => {
-    setNextWeek(calendarConfig.start);
+    setNextWeek(calendarConfig);
     updateCalendarData(calendarConfig);
 });
+
+
 
 $("#calendar").jqs({
     mode: "read",
     days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
 })
 
-let calendarConfig = getTodayWeekConfig(new Date());
+var calendarConfig = undefined;
 
 //setPrevWeek(calendarConfig.start);
-updateCalendarData(calendarConfig);
+initServices(svs => {
+    SERVICES = svs;
+    let firstService = svs[0];
+    calendarConfig = getTodayWeekConfig(firstService, new Date());
+    updateCalendarData(calendarConfig);
+})

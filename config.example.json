@@ -1,34 +1,44 @@
 {
-    "baseurl": "http://127.0.0.1:8777/",
-    "port": 8777,
-    "codePrivateKey": 1,
-    "captchaSecret": "",
-    "paheko": {
-        "url": "",
-        "username": "",
-        "password": "",
-        "activityAdhesionId": 0,
-        "activityRemorqueId": 0
+  "baseurl": "http://127.0.0.1:8777/",
+  "port": 8777,
+  "paheko": {
+      "url": "",
+      "username": "",
+      "password": "",
+      "activityAdhesionId": 0
+  },
+  "googleCalendarId": "",
+  "services": [
+    {
+      "id": "",
+      "name": "",
+      "googleCalendarId": "",
+      "codePrivateKey": 1,
+      "pahekoActivityId": 0,
+      "mailConfirmationSubject": "",
+      "mailConfirmationContent": [
+        ""
+      ]
+    }
+  ],
+  "googleCredentials": {
+      "type": "",
+      "project_id": "",
+      "private_key_id": "",
+      "private_key": "",
+      "client_email": "",
+      "client_id": "",
+      "auth_uri": "",
+      "token_uri": "",
+      "auth_provider_x509_cert_url": "",
+      "client_x509_cert_url": "",
+      "universe_domain": ""
     },
-    "googleCalendarId": "",
-    "googleCredentials": {
-        "type": "",
-        "project_id": "",
-        "private_key_id": "",
-        "private_key": "",
-        "client_email": "",
-        "client_id": "",
-        "auth_uri": "",
-        "token_uri": "",
-        "auth_provider_x509_cert_url": "",
-        "client_x509_cert_url": "",
-        "universe_domain": ""
-      },
-      "smtp": {
-        "host": "",
-        "name": "",
-        "email": "",
-        "password": "",
-        "portSSL": 465
-      }
+    "smtp": {
+      "host": "",
+      "name": "",
+      "email": "com",
+      "password": "",
+      "portSSL": 465
+    }
 }

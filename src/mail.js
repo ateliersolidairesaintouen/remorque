@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer");
 
+<<<<<<< HEAD
 const SUBJECT = "Confirmation de réservation de remorque"
 const CONTENT = [
     "<p>Nous vous confirmons la réservation de la remorque en libre service. Voici les détails de votre réservation :</p>",
@@ -35,9 +36,12 @@ const CONTENT = [
     "<p>Atelier Solidaire</p>"
 ].join("\n")
 
+=======
+>>>>>>> multiple_services
 var mail = class Mail {
-    constructor(baseurl, smtp) {
+    constructor(baseurl, smtp, data) {
         this.baseurl = baseurl;
+        this.data = data;
         this.smtp = smtp,
         this.transport = nodemailer.createTransport({
             host: smtp.host,
@@ -50,16 +54,8 @@ var mail = class Mail {
         });
     }
 
-    generateLinkHelp(id) {
-        return this.baseurl + "help?id=" + id;
-    }
-
-    generateLinkCancel(id) {
-        return this.baseurl + "cancel?id=" + id;
-    }
-
-    formatDate(date) {
-
+    generateLinkCancel(service, id) {
+        return this.baseurl + "cancel?service=" + service.id + "&id=" + id;
     }
 
     formatHour(date) {
@@ -67,15 +63,16 @@ var mail = class Mail {
     }
 
     generateMail(data) {
-        var content = CONTENT
+        var content = data.service.mailConfirmationContent
+            .join("\n")
             .replaceAll("{NAME}", data.member.nom)
             .replaceAll("{HOUR_START}", data.from.toLocaleTimeString("fr-FR"))
             .replaceAll("{HOUR_END}", data.to.toLocaleTimeString("fr-FR"))
             .replaceAll("{DATE_START}", data.from.toLocaleDateString("fr-FR"))
             .replaceAll("{DATE_END}", data.to.toLocaleDateString("fr-FR"))
-            .replaceAll("{LINK_CANCEL}", this.generateLinkCancel(data.eventId))
+            .replaceAll("{LINK_CANCEL}", this.generateLinkCancel(data.service, data.eventId))
             .replaceAll("{CODE}", data.code);
-        var subject = SUBJECT;
+        var subject = data.service.mailConfirmationSubject;
         var sender = `${this.smtp.name} <${this.smtp.email}>`
 
         return {
@@ -85,9 +82,9 @@ var mail = class Mail {
         }
     }
 
-    async sendConfirmationMail(data) {
-        var template = this.generateMail(data);
-        var member = data.member;
+    async sendConfirmationMail() {
+        var template = this.generateMail(this.data);
+        var member = this.data.member;
 
         try {
             this.transport.sendMail({

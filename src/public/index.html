@@ -6,13 +6,13 @@
         <link rel="stylesheet" href="./css/main.css" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-        <title>Réservation remorque Saint-Ouen</title>
+        <title>Réservation remorques Saint-Ouen</title>
         <meta charset="utf-8" />
     </head>
     <body>
         <nav class="navbar navbar-expand-lg bg-body-tertiary" >
             <div class="container-fluid">
-                <a class="navbar-brand" >Réservation de la remorque</a>
+                <a class="navbar-brand" >Réservation de remorques</a>
                 <div class="collapse navbar-collapse" >
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
@@ -61,14 +61,19 @@
                 </div>
                 <div class="col-lg-4 order-1" >
                     <div class="card" >
-                        <form class="card-body mt-3 mb-3" action="" method="post">
+                        <form class="card-body mt-3 mb-3" method="post">
                             <h4 class="card-title">Réserver un créneau</h4>
 
-                            <p>Pour réserver un créneau, inscrivez votre numéro d'adhérent et choisissez la plage horaire de la
+                            <p>Pour réserver un créneau, choisissez le véhicule souhaité, inscrivez votre numéro d'adhérent et choisissez la plage horaire de la
                                 réservation.</p>
 
                             <div id="alert" class="alert alert-hidden">Message d'alerte</div>
 
+                            <div class="input-group mb-3" >
+                                <span class="input-group-text">Véhicule</span>
+                                <select id="service" class="form-select">
+                                </select>
+                            </div>
                             <div class="input-group mb-3">
                                 <input id="member" type="number" class="form-control" placeholder="Numéro adhérent" aria-label="Numéro adhérent" aria-describedby="basic-addon1">
                             </div>
