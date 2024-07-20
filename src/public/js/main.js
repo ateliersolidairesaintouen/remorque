@@ -161,7 +161,7 @@ var initServices = (then, failure) => {
             console.log(sv.color)
             let option = new Option(sv.name, sv.id);
             service.appendChild(option);
-            all.append(sv);
+            all.push(sv);
         }
         then(all);
     })
