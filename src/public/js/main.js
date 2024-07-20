@@ -154,14 +154,13 @@ var daysInDateMonth = (d) => {
 
 // Init and set services
 
-var initServices = (then, failure) => {
+var initServices = (then, _) => {
     fetchServices().then(services => {
         let all = [];
         for (let i = 0; i < services.length; ++i) {
             let sv = services[i];
             sv.color = COLORS[i % services.length];
             let option = new Option(sv.name, sv.id);
-            option.style.backgroundColor = sv.color;
             service.appendChild(option);
             all.push(sv);
         }
