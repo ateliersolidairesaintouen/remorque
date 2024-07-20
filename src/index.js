@@ -241,6 +241,8 @@ app.get("/calendar", function (req, res) {
     // On fait rien s'il manque un champ >>> SEMBLE PAS MARCHER LOL
     if (!req.query.start || !req.query.end || !req.query.service) return error("Formulaire incomplet", res);
 
+    console.log(req.query.service);
+
     let start = new Date(req.query.start);
     let end = new Date(req.query.end);
     let service = Service.getServiceById(SERVICES, req.query.service);
