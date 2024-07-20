@@ -240,6 +240,7 @@ let calendarConfig = undefined;
 
 //setPrevWeek(calendarConfig.start);
 initServices(services => {
+    console.log(services)
     calendarConfig = getTodayWeekConfig(services[0], new Date());
     updateCalendarData(calendarConfig);
 })
