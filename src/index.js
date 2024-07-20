@@ -243,7 +243,7 @@ app.get("/calendar", function (req, res) {
 
     let start = new Date(req.query.start);
     let end = new Date(req.query.end);
-    let service = Service.getServiceById(req.query.service);
+    let service = Service.getServiceById(SERVICES, req.query.service);
 
     if (service == null) return error("Materiel de prêt inconnu");
 
@@ -271,7 +271,7 @@ app.get("/cancel", (req, res) => {
     if (id == undefined ) error("No id", res);
     if (serviceId == undefined) error("No service", res);
 
-    let service = Service.getServiceById(serviceId);
+    let service = Service.getServiceById(SERVICES, serviceId);
     console.log(service);
     if (service == null) error("Unknow service", res);
 
