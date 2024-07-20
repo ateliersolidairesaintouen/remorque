@@ -72,7 +72,7 @@ var getWeekTitle = (config) => {
     })}`
 }
 
-var getWeekCalendarConfig = (day) => {
+var getTodayWeekConfig = (day) => {
     let d = new Date(day);
     let de = new Date(day);
 
