@@ -38,6 +38,7 @@ let paheko = new PahekoClient(
 );
 
 let error = (e, res) => {
+    console.log(e);
     res.send({
         status: 500,
         message: e
