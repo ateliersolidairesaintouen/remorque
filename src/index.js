@@ -245,7 +245,7 @@ app.get("/calendar", function (req, res) {
     let end = new Date(req.query.end);
     let service = Service.getServiceById(SERVICES, req.query.service);
 
-    if (service == null) return error("Materiel de prêt inconnu");
+    if (service == null) return error("Materiel de prêt inconnu", res);
 
     let calendar = new CalendarClient(
         service.googleCalendarId,
