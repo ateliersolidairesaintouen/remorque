@@ -224,7 +224,7 @@ app.post("/add", function(req, res) {
                             })
                         }, (e) => {
                             // Le mail n'est pas envoyé
-                            abortCalendarEvent({ eventId: id }, () => {
+                            abortCalendarEvent(data.calendar, { eventId: id }, () => {
                                 // On supprime le créneau
                                 error(e, res);
                             }, (e) => error(e, res));
