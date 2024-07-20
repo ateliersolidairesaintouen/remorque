@@ -11,6 +11,8 @@ const COLORS = [
     "#FFC6FF"
 ]
 
+var SERVICES = undefined;
+
 let calNavTitle = document.getElementById("calendar-navigation-title");
 let calNavToday = document.getElementById("calendar-navigation-today");
 let calNavPrev = document.getElementById("calendar-navigation-prev");
@@ -207,8 +209,13 @@ var updateCalendarData = (calendarConfig) => {
 }
 
 service.addEventListener('change', () => {
-    calendarConfig.service = service.value;
-    updateCalendarData(calendarConfig);
+    let id = service.value;
+    SERVICES.forEach(it => {
+        if (it.id == id) {
+            calendarConfig.service = it;
+            updateCalendarData(calendarConfig);
+        }
+    })
 })
 
 submit.addEventListener("click", () => {
@@ -258,8 +265,9 @@ $("#calendar").jqs({
 var calendarConfig = undefined;
 
 //setPrevWeek(calendarConfig.start);
-initServices(services => {
-    let firstService = services[0];
+initServices(svs => {
+    SERVICES = svs;
+    let firstService = svs[0];
     calendarConfig = getTodayWeekConfig(firstService, new Date());
     updateCalendarData(calendarConfig);
 })
