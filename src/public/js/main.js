@@ -89,7 +89,7 @@ var getTodayWeekConfig = (service, day) => {
     var end = new Date(de.setDate(start.getDate() + 6));
 
     return {
-        service: service.id,
+        service: service,
         start: start,
         end: end
     }
@@ -236,11 +236,11 @@ $("#calendar").jqs({
     days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
 })
 
-let calendarConfig = undefined;
+var calendarConfig = undefined;
 
 //setPrevWeek(calendarConfig.start);
 initServices(services => {
-    console.log(services)
-    calendarConfig = getTodayWeekConfig(services[0], new Date());
+    let firstService = services[0].id;
+    calendarConfig = getTodayWeekConfig(firstService, new Date());
     updateCalendarData(calendarConfig);
 })
