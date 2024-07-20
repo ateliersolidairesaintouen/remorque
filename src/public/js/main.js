@@ -158,6 +158,7 @@ var initServices = (then, failure) => {
         for (let i = 0; i < services.length; ++i) {
             let sv = services[i];
             sv.color = COLORS[i % services.length];
+            console.log(sv.color)
             let option = new Option(sv.name, sv.id);
             service.appendChild(option);
             all.append(sv);
