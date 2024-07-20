@@ -26,6 +26,7 @@ var mail = class Mail {
 
     generateMail(data) {
         var content = data.service.mailConfirmationContent
+            .join("\n")
             .replaceAll("{NAME}", data.member.nom)
             .replaceAll("{HOUR_START}", data.from.toLocaleTimeString("fr-FR"))
             .replaceAll("{HOUR_END}", data.to.toLocaleTimeString("fr-FR"))
