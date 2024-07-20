@@ -294,6 +294,15 @@ app.get("/cancel", (req, res) => {
     });
 });
 
+app.get("/services", (req, res) => {
+    res.send(SERVICES.map(it => {
+        return {
+            id: it.id,
+            name: it.name
+        }
+    }));
+})
+
 app.get("/test", (req, res) => {
     console.log(CONFIG);
     res.send("")
