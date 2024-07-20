@@ -10,6 +10,7 @@ let calendarTable = document.getElementById("calendar_table");
 let alertLabel = document.getElementById("alert");
 
 let date = document.getElementById("date");
+let service = document.getElementById("service");
 let startHour = document.getElementById("start-hour");
 let startMinute = document.getElementById("start-minute");
 
@@ -20,8 +21,9 @@ let submit = document.getElementById("submit");
 
 date.valueAsDate = new Date();
 
-async function submitRequest(member, start, end, captcha) {
+async function submitRequest(service, member, start, end, captcha) {
     let form = new FormData();
+    form.append("service", service);
     form.append("member", member);
     form.append("from", start);
     form.append("to", end);
@@ -168,10 +170,11 @@ submit.addEventListener("click", () => {
     var e = formatDateTime(date.valueAsDate, endHour.value, endMinute.value);
     var m = member.value;
     var c = grecaptcha.getResponse();
+    var sv = service.value;
 
     alertMessage("alert-secondary", "Enregistrement...")
 
-    submitRequest(m, s, e, c).then((rs) => {
+    submitRequest(sv, m, s, e, c).then((rs) => {
         if (rs.status == 200) {
             alertMessage("alert-success", rs.message);
             updateCalendarData(calendarConfig);
