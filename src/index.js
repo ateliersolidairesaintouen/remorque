@@ -79,8 +79,9 @@ let checkForRegistration = (data, success, failure) => {
     paheko.getMemberActivities(member, result => {
         let aJourCotis = false;
         let aJourRemorque = false;
+        let it;
         for (let i = 0; i < result.length; ++i) {
-            let it = result[i];
+            it = result[i];
 
             let service = it["id_service"];
             let start = new Date(it["date"]);
