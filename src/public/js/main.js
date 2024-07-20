@@ -164,7 +164,7 @@ var updateCalendarData = (calendarConfig) => {
 
     let data = [];
 
-    fetchCalendar(calendarConfig.start, calendarConfig.end).then(result => {
+    fetchCalendar(undefined, calendarConfig.start, calendarConfig.end).then(result => {
         for (let i = 0; i < result.length; ++i) {
             let it = result[i];
             let s = new Date(it.start);
