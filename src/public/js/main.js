@@ -161,6 +161,7 @@ var initServices = (then, failure) => {
             let sv = services[i];
             sv.color = COLORS[i % services.length];
             let option = new Option(sv.name, sv.id);
+            option.style.backgroundColor = sv.color;
             service.appendChild(option);
             all.push(sv);
         }
