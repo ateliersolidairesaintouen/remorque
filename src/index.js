@@ -187,6 +187,10 @@ app.post("/add", function(req, res) {
     let captcha = req.body.captcha;
     let service = Service.getServiceById(SERVICES, req.body.service);
 
+    if (from == undefined || to == undefined) {
+        return error("Heure de date", res)
+    }
+
     let data = {
         member: member,
         from: from,
