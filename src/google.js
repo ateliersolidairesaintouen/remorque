@@ -76,7 +76,7 @@ var calendarClient = class CalendarClient {
 
             return results;
         } catch(e) {
-            throw "Impossible de récupérer les évènements : " + new String(start) + " - " + new String(end);
+            throw new String(e);
         }
     }
 
