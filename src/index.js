@@ -41,7 +41,7 @@ let error = (e, res) => {
     console.log(e);
     res.send({
         status: 500,
-        message: e
+        message: new String(e)
     })
 };
 
