@@ -67,6 +67,7 @@ var calendarClient = class CalendarClient {
             var results = [];
 
             res.data.items.forEach(i => {
+                if (i.id == undefined || i.start == undefined || i.end == undefined) return;
                 results.push({
                     id: i.id,
                     start: new Date(i.start.dateTime),
