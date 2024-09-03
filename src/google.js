@@ -74,7 +74,7 @@ var calendarClient = class CalendarClient {
 
             return results;
         } catch(e) {
-            throw e;
+            throw "Impossible de récupérer les évènements";
         }
     }
 
