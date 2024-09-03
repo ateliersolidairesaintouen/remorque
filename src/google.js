@@ -62,6 +62,8 @@ var calendarClient = class CalendarClient {
                 timeMax: end.toISOString()
             });
 
+            console.log(res)
+
             var results = [];
 
             res.data.items.forEach(i => {
