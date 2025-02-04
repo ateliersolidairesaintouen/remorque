@@ -33,7 +33,8 @@ var mail = class Mail {
             .replaceAll("{DATE_START}", data.from.toLocaleDateString("fr-FR"))
             .replaceAll("{DATE_END}", data.to.toLocaleDateString("fr-FR"))
             .replaceAll("{LINK_CANCEL}", this.generateLinkCancel(data.service, data.eventId))
-            .replaceAll("{CODE}", data.code);
+            .replaceAll("{CODE}", data.code)
+            .replaceAll("{LASTCODE}", data.lastCode);
         var subject = data.service.mailConfirmationSubject;
         var sender = `${this.smtp.name} <${this.smtp.email}>`
 

@@ -135,6 +135,14 @@ let calculateCode = (data, date) => {
     return result.substring(result.length - 4, result.length);
 }
 
+let calculateLastCode = (data, date) => {
+    let month = date.getMonth();
+    let year = parseInt(new String(date.getUTCFullYear()).substring(2, 4));
+    let init = month + year;
+    let result = new String(init * data.service.codePrivateKey)
+    return result.substring(result.length - 4, result.length);
+}
+
 let addCalendarEvent = (data, success, failure) => {
     let member = data.member;
     let from = data.from;
@@ -221,6 +229,7 @@ app.post("/add", function(req, res) {
                         // On a bien ajouté le créneau à l'agenda
                         data.eventId = id;
                         data.code = calculateCode(data, data.from);
+                        data.lastCode = calculateLastCode(data, data.from);
                         sendConfirmationMail(data, () => {
                             // Le mail de confirmation est bien envoyé
                             res.send({
