@@ -51,6 +51,15 @@ let checkForService = (data, success, failure) => {
 }
 
 let checkForCaptcha = (data, success, failure) => {
+    /*
+        06/02/25 : on skip la vérification de captcha car c'est trop
+        lourd par rapport à sa réelle utilité
+        => Si on change d'avis, enlever success() et return
+    */
+    success()
+
+    return
+
     let captcha = data.captcha;
 
     let form = new URLSearchParams();
