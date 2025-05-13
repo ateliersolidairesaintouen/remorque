@@ -161,7 +161,7 @@ var initServices = (then, _) => {
             let sv = services[i];
             sv.color = COLORS[i % services.length];
             let option = new Option(sv.name, sv.id);
-            option.value = sv.available ? sv.name : sv.name + " (indisponible)"
+            option.innerHTML = sv.available ? sv.name : sv.name + " (indisponible)"
             option.disabled = !sv.available
             service.appendChild(option);
             all.push(sv);
