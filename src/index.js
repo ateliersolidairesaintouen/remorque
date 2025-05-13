@@ -320,7 +320,8 @@ app.get("/services", (req, res) => {
     res.send(SERVICES.map(it => {
         return {
             id: it.id,
-            name: it.name
+            name: it.name,
+            available: it.available
         }
     }));
 })

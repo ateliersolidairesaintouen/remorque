@@ -10,6 +10,7 @@
   "services": [
     {
       "id": "",
+      "available": true,
       "name": "",
       "googleCalendarId": "",
       "codePrivateKey": 1,
