@@ -2,6 +2,7 @@ var service = class Service {
     constructor(
         id,
         name,
+        available,
         googleCalendarId,
         mailConfirmationSubject,
         mailConfirmationContent,
@@ -10,6 +11,7 @@ var service = class Service {
     ) {
         this.id = id;
         this.name = name;
+        this.available = available;
         this.googleCalendarId = googleCalendarId;
         this.mailConfirmationSubject = mailConfirmationSubject;
         this.mailConfirmationContent = mailConfirmationContent;
@@ -21,6 +23,7 @@ var service = class Service {
         return configServices.map(it => new Service(
             it.id,
             it.name,
+            it.available,
             it.googleCalendarId,
             it.mailConfirmationSubject,
             it.mailConfirmationContent,
