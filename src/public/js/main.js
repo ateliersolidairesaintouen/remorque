@@ -238,7 +238,8 @@ submit.addEventListener("click", () => {
         if (rs.status == 200) {
             alertMessage("alert-success", rs.message);
             updateCalendarData(calendarConfig);
-            askForDonation()
+
+            setTimeout(askForDonation, 1000);
         } else {
             alertMessage("alert-danger", rs.message);
         }
