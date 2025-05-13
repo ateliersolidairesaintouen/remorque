@@ -210,7 +210,7 @@ var updateCalendarData = (calendarConfig) => {
 
 var askForDonation = () => {
     if (confirm("Un petit don pour l'atelier ? À votre bon coeur!") == true) {
-        window.open("https://www.helloasso.com/associations/atelier-solidaire-saint-ouen/boutiques/don-remorque")
+        window.open("https://www.helloasso.com/associations/atelier-solidaire-saint-ouen/boutiques/don-remorque", "_blank")
     }
 }
 
