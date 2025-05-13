@@ -47,6 +47,7 @@ let error = (e, res) => {
 
 let checkForService = (data, success, failure) => {
     if (data.service == null) failure("Matériel de prêt inconnu");
+    else if (!data.service.available) failure("Matériel de prêt indisponible en ce moment");
     else success();
 }
 
