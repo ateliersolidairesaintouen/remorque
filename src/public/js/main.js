@@ -39,7 +39,7 @@ async function submitRequest(service, member, start, end, captcha) {
     form.append("member", member);
     form.append("from", start);
     form.append("to", end);
-    form.append("captcha", captcha);
+    //form.append("captcha", captcha); 06/02/25 : suppression captcha
 
     let res = await fetch(BASE_URL + "add", {
         "method": "POST",
@@ -222,7 +222,8 @@ submit.addEventListener("click", () => {
     var s = formatDateTime(date.valueAsDate, startHour.value, startMinute.value);
     var e = formatDateTime(date.valueAsDate, endHour.value, endMinute.value);
     var m = member.value;
-    var c = grecaptcha.getResponse();
+    //var c = grecaptcha.getResponse(); 06/02/25 suppression captcha
+    var c = undefined
     var sv = service.value;
 
     alertMessage("alert-secondary", "Enregistrement...")

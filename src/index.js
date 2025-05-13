@@ -201,7 +201,7 @@ app.post("/add", function(req, res) {
     let member = req.body.member;
     let from = new Date(req.body.from);
     let to = new Date(req.body.to);
-    let captcha = req.body.captcha;
+    //let captcha = req.body.captcha; 06/02/25 : suppression des Captcha
     let service = Service.getServiceById(SERVICES, req.body.service);
 
     if (from == undefined || to == undefined) {
@@ -212,7 +212,7 @@ app.post("/add", function(req, res) {
         member: member,
         from: from,
         to: to,
-        captcha: captcha,
+        //captcha: captcha, 06/02/25 : suppression des Captcha
         service: service
     };
 
