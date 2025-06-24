@@ -185,7 +185,7 @@ var updateCalendarData = (calendarConfig) => {
             let it = result[i];
             let s = new Date(it.start);
             let e = new Date(it.end);
-            let d = s.getDay() == 0 ? 5 : s.getDay() - 1;
+            let d = s.getDay() == 0 ? 6 : s.getDay() - 1;
 
             let sstr = s.toLocaleTimeString("fr-FR");
             let estr = e.toLocaleTimeString("fr-FR");
